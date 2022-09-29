@@ -134,6 +134,20 @@ p {
 	background: #9A2C44;
 }
 
+#file-input1, #file-input2{
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 100px;
+	border: solid 2px #E35F59;
+	background: #9A2C44;
+	color: white;
+}
+
+#selected_filename1, #selected_filename2 {
+	margin-top: 20px;
+	color: #3E3C3A;
+}
+
 #print-container{
 	border: None;
 }

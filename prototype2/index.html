@@ -95,8 +95,28 @@
 			</div>
 			<div class="tables disabled" id="table1Div">
 			</div>
+
 			<div class="charts disabled" id="chart1">
+				<div>
+					<input type="file" id="file1" style="display:none;"/>
+					<button id="file-input1">Select file</button>
+					<span id="selected_filename1">No file selected</span>
+					<script>
+						$(document).ready( function() {
+						$('#file-input1').click(function(){
+							$("#file1").click();
+						});
+						});
+						$('#file1').change(function() {
+						$('#selected_filename1').text($('#file1')[0].files[0].name);
+						});	
+					</script>
+				</div>
+
+				<div id="barChart1">
+				</div>
 			</div>
+
 			<div class="queryPanel disabled" id="queryPanel1">
 				<div class="queryInfo">
 					<div class="queryInfoLeft">
@@ -294,8 +314,27 @@
 			</div>
 			<div class="tables disabled" id="table2Div">
 			</div>
+
 			<div class="charts disabled" id="chart2">
+				<div>
+					<input type="file" id="file2" style="display:none;"/>
+					<button id="file-input2">Select file</button>
+					<span id="selected_filename2">No file selected</span>
+					<script>
+						$(document).ready( function() {
+						$('#file-input2').click(function(){
+							$("#file2").click();
+						});
+						});
+						$('#file2').change(function() {
+						$('#selected_filename2').text($('#file2')[0].files[0].name);
+						});	
+					</script>
+				</div>
+				
+				<div id="barChart2"></div>
 			</div>
+
 			<div class="queryPanel disabled" id="queryPanel2">
 				<div class="queryInfo">
 					<div class="queryInfoLeft">
@@ -480,10 +519,6 @@
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="viewOption" id="map" value="map">
 							<label class="form-check-label exportText" for="map">MAP</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name="viewOption" id="graph" value="graph">
-							<label class="form-check-label exportText" for="graph">GRAPH</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="viewOption" id="table" value="table">

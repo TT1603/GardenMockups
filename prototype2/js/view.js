@@ -72,8 +72,16 @@ document.addEventListener("DOMContentLoaded", function() {
 	viewModel.createSearchBar(document.getElementById("searchBar2"));
 	table1 = viewModel.createTable("table1", "table1Div");
 	table2 = viewModel.createTable("table2", "table2Div");
-	chart1 = viewModel.createChart("chart1", "chart1");
-	chart2 = viewModel.createChart("chart2", "chart2");
+	chart1 = viewModel.createChart("chart1", "barChart1");
+	chart2 = viewModel.createChart("chart2", "barChart2");
+	document.getElementById('file1').addEventListener('change', (e) => {
+		var file = e.target.files[0];
+		viewModel.populateChartFromFile(file, "barChart1");
+	});
+	document.getElementById('file2').addEventListener('change', (e) => {
+		var file = e.target.files[0];
+		viewModel.populateChartFromFile(file, "barChart2");
+	});
 	searchAddr1 = viewModel.createSearchAddress(map1, "addressSearch1");
 	searchAddr2 = viewModel.createSearchAddress(map2, "addressSearch2");
 
@@ -88,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			viewModel.populateMap("map1", map1, infoBox1, var1).then((status) =>
 				viewModel.changeBack(document.getElementById("search1"))|
 				viewModel.populateLegend("map1", document.getElementById("legend1"))).then((status) =>
-				viewModel.populateTable("map1", table1)).then((status) =>
+				viewModel.populateTable("map1", table1) | viewModel.populateChart("map1", "barChart1")).then((status) =>
 				viewModel.endSearch(1)).then((status) =>
 				viewModel.updateDetails(1));
 		}
@@ -103,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		   viewModel.populateMap("map2", map2, infoBox2, var2).then((status) =>
 			    viewModel.changeBack(document.getElementById("search2")) |
 			    viewModel.populateLegend("map2", document.getElementById("legend2"))).then((status) =>
-				viewModel.populateTable("map2", table2)).then((status) =>
+				viewModel.populateTable("map2", table2) | viewModel.populateChart("map2", "barChart2")).then((status) =>
 				viewModel.endSearch(2)).then((status) =>
 				viewModel.updateDetails(2));
 	   }
@@ -433,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			viewModel.populateMap("map1", map1, infoBox1, viewModel.queryFlags["map1"]).then((status) =>
 				viewModel.changeBack(document.getElementById("search1"))|
 				viewModel.populateLegend("map1", document.getElementById("legend1"))).then((status) =>
-				viewModel.populateTable("map1", table1) | viewModel.populateChart("map1", chart1)).then((status) =>
+				viewModel.populateTable("map1", table1) /* | viewModel.populateChart("map1", chart1) */ ).then((status) =>
 				viewModel.endSearch(1)).then((status) =>
 				viewModel.updateDetails(1));
 		}
@@ -443,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			viewModel.populateMap("map2", map2, infoBox2, viewModel.queryFlags["map2"]).then((status) =>
 				viewModel.changeBack(document.getElementById("search2"))|
 				viewModel.populateLegend("map2", document.getElementById("legend2"))).then((status) =>
-				viewModel.populateTable("map2", table2) | viewModel.populateChart("map2", chart2)).then((status) =>
+				viewModel.populateTable("map2", table2) /* | viewModel.populateChart("map2", chart2) */ ).then((status) =>
 				viewModel.endSearch(2)).then((status) =>
 				viewModel.updateDetails(2));
 		}

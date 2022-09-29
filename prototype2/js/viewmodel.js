@@ -244,8 +244,6 @@ class ViewModel {
         const view = props["viewOption"];
         if (view === "map"){
             this.handleExportMap(format, this.exportMap);
-        } else if (view == "graph"){
-            this.handleExportGraph(format, this.exportMap);
         } else if (view == "table"){
             this.handleExportTable(format, this.exportMap);
         }
@@ -261,19 +259,6 @@ class ViewModel {
             this.downloadBlockData(key);
         } else if (format === "pdf"){
             /* TO DO */
-        }
-    }
-
-    /**
-    * Exporting graph view
-    */
-    handleExportGraph(format, key){
-        if (format === "png"){
-            /* GRAPH NOT YET IMPLEMENTED */
-        } else if (format === "csv"){
-            /* GRAPH NOT YET IMPLEMENTED */
-        } else if (format === "pdf"){
-            /* GRAPH NOT YET IMPLEMENTED */
         }
     }
 
@@ -534,7 +519,21 @@ class ViewModel {
         return table;
     }
 
-    createChart(chartId, chartDiv){
+    /**
+     * Creates initial bar chart for HOWL map
+     *
+     * @param {*} chartId Id of the chart being created
+     * @param {*} chartDiv The HTML div that this chart is attached to
+     */
+    createChart(chartId, chartDiv) {
+        let initialData = [
+                {"county": "Apache", "value": 15}, {"county": "Cochise", "value": 14}, {"county": "Cococino", "value": 13},
+                {"county": "Gila", "value": 12}, {"county": "Graham", "value": 11}, {"county": "Greenlee", "value": 10},
+                {"county": "La Paz", "value": 9}, {"county": "Maricopa", "value": 8}, {"county": "Mohave", "value": 7},
+                {"county": "Navajo", "value": 6}, {"county": "Pima", "value": 5}, {"county": "Pinal", "value": 4},
+                {"county": "Santa Cruz", "value": 3}, {"county": "Yavapai", "value": 2}, {"county": "Yuma", "value": 1}
+            ]  
+        
         let barchart = 
         { 
             "background": "#B6C6C2",
@@ -542,18 +541,12 @@ class ViewModel {
             "height": 500,
             "padding": 40,
             "autosize": "fit",
-            "data": { "values": [
-                {"county": "Apache", "value": 15}, {"county": "Cochise", "value": 14}, {"county": "Cococino", "value": 13},
-                {"county": "Gila", "value": 12}, {"county": "Graham", "value": 11}, {"county": "Greenlee", "value": 10},
-                {"county": "La Paz", "value": 9}, {"county": "Maricopa", "value": 8}, {"county": "Mohave", "value": 7},
-                {"county": "Navajo", "value": 6}, {"county": "Pima", "value": 5}, {"county": "Pinal", "value": 4},
-                {"county": "Santa Cruz", "value": 3}, {"county": "Yavapai", "value": 2}, {"county": "Yuma", "value": 1}
-              ]},
+            "data": { "values": initialData},
             "mark": {"type": "bar"},
             "encoding": {
-              "y": {"title": "County", "field": "county", "type": "ordinal"},
-              "x": {"title": "Value", "field": "value", "type": "quantitative"},
-              "color": {"value": "#9A2C44"}
+            "y": {"title": "County", "field": "county", "type": "ordinal"},
+            "x": {"title": "Value", "field": "value", "type": "quantitative"},
+            "color": {"value": "#9A2C44"}
             },
             "config": {
                 "axis":{
@@ -566,8 +559,82 @@ class ViewModel {
         vegaEmbed('#' + chartDiv, barchart);
     }
 
-    populateChart(key, chart){
+    /**
+     * Populate the bar chart with data from a sample csv file
+     *
+     * @param {*} file name of the CSV file for the data
+     * @param {*} chartDiv The HTML div that this chart is attached to
+     */
+    populateChartFromFile(file, chartDiv){
+        if (!file) {
+          return;
+        }
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let dataStr = e.target.result;
+            let dataList = dataStr.split("\r\n");
+            let data = []
+            for (let i=0; i < dataList.length; i++){
+                let row = dataList[i].split(",");
+                data.push(row);
+            }
+            let countyNameCol = 0;
+            let valueCol = 0;
+            for (let i=0; i < data[0].length; i++){
+                if (data[0][i].toLowerCase().includes("countyname")){
+                    countyNameCol = i;
+                } else if (data[0][i].toLowerCase().includes("value")){
+                    valueCol = i;
+                }
+            }
+            let countyMap = {};
+            for (let i=1; i < data.length; i++){
+                let name = data[i][countyNameCol].trim().replace('\t\"', '');
+                if (name in countyMap){
+                    countyMap[name] += parseInt(data[i][valueCol]);
+                } else{
+                    countyMap[name] = parseInt(data[i][valueCol]);
+                }
+            }
+            let chartData = []
+            for (var name in countyMap){
+                chartData.push({"county": name, "value": countyMap[name]})
+            }
+            let barchart = 
+            { 
+                "background": "#B6C6C2",
+                "width": 500,
+                "height": 500,
+                "padding": 40,
+                "autosize": "fit",
+                "data": { "values": chartData},
+                "mark": {"type": "bar"},
+                "encoding": {
+                "y": {"title": "County", "field": "county", "type": "ordinal", "sort": "-x"},
+                "x": {"title": "Value", "field": "value", "type": "quantitative"},
+                "color": {"value": "#9A2C44"}
+                },
+                "config": {
+                    "axis":{
+                        "tickColor": null,
+                        "labelColor": "#3E3C3A", "labelFont": "sans-serif", "labelFontSize": 16,
+                        "titleColor": "#3E3C3A", "titleFont": "sans-serif", "titleFontSize": 16
+                    }
+                }
+            }
+            vegaEmbed('#' + chartDiv, barchart);
+        };
+        reader.readAsText(file);
+    }
 
+    /**
+     * Populate the bar chart after a variable is loaded
+     *
+     * @param {*} key Id of the map for the current data
+     * @param {*} chartDiv The HTML div that this chart is attached to
+     */
+    populateChart(key, chartDiv){
+        // TO DO
     }
 
     /**

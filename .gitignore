@@ -246,3 +246,6 @@ paket-files/
 .idea/
 *.sln.iml
 push
+
+# Other files
+sample_data.csv
