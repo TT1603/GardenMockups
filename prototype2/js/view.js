@@ -2,6 +2,8 @@ var map1 = null;
 var map2 = null;
 var table1 = null;
 var table2 = null;
+var chart1 = null;
+var chart2 = null;
 var infoBox1 = null;
 var infoBox2 = null;
 var viewModel = null;
@@ -70,6 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	viewModel.createSearchBar(document.getElementById("searchBar2"));
 	table1 = viewModel.createTable("table1", "table1Div");
 	table2 = viewModel.createTable("table2", "table2Div");
+	chart1 = viewModel.createChart("chart1", "chart1");
+	chart2 = viewModel.createChart("chart2", "chart2");
 	searchAddr1 = viewModel.createSearchAddress(map1, "addressSearch1");
 	searchAddr2 = viewModel.createSearchAddress(map2, "addressSearch2");
 
@@ -429,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			viewModel.populateMap("map1", map1, infoBox1, viewModel.queryFlags["map1"]).then((status) =>
 				viewModel.changeBack(document.getElementById("search1"))|
 				viewModel.populateLegend("map1", document.getElementById("legend1"))).then((status) =>
-				viewModel.populateTable("map1", table1)).then((status) =>
+				viewModel.populateTable("map1", table1) | viewModel.populateChart("map1", chart1)).then((status) =>
 				viewModel.endSearch(1)).then((status) =>
 				viewModel.updateDetails(1));
 		}
@@ -439,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			viewModel.populateMap("map2", map2, infoBox2, viewModel.queryFlags["map2"]).then((status) =>
 				viewModel.changeBack(document.getElementById("search2"))|
 				viewModel.populateLegend("map2", document.getElementById("legend2"))).then((status) =>
-				viewModel.populateTable("map2", table2)).then((status) =>
+				viewModel.populateTable("map2", table2) | viewModel.populateChart("map2", chart2)).then((status) =>
 				viewModel.endSearch(2)).then((status) =>
 				viewModel.updateDetails(2));
 		}

@@ -534,6 +534,42 @@ class ViewModel {
         return table;
     }
 
+    createChart(chartId, chartDiv){
+        let barchart = 
+        { 
+            "background": "#B6C6C2",
+            "width": 500,
+            "height": 500,
+            "padding": 40,
+            "autosize": "fit",
+            "data": { "values": [
+                {"county": "Apache", "value": 15}, {"county": "Cochise", "value": 14}, {"county": "Cococino", "value": 13},
+                {"county": "Gila", "value": 12}, {"county": "Graham", "value": 11}, {"county": "Greenlee", "value": 10},
+                {"county": "La Paz", "value": 9}, {"county": "Maricopa", "value": 8}, {"county": "Mohave", "value": 7},
+                {"county": "Navajo", "value": 6}, {"county": "Pima", "value": 5}, {"county": "Pinal", "value": 4},
+                {"county": "Santa Cruz", "value": 3}, {"county": "Yavapai", "value": 2}, {"county": "Yuma", "value": 1}
+              ]},
+            "mark": {"type": "bar"},
+            "encoding": {
+              "y": {"title": "County", "field": "county", "type": "ordinal"},
+              "x": {"title": "Value", "field": "value", "type": "quantitative"},
+              "color": {"value": "#9A2C44"}
+            },
+            "config": {
+                "axis":{
+                    "tickColor": null,
+                    "labelColor": "#3E3C3A", "labelFont": "sans-serif", "labelFontSize": 16,
+                    "titleColor": "#3E3C3A", "titleFont": "sans-serif", "titleFontSize": 16
+                }
+            }
+        }
+        vegaEmbed('#' + chartDiv, barchart);
+    }
+
+    populateChart(key, chart){
+
+    }
+
     /**
      * Adds a th element to the given thead element
      *

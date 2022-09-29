@@ -156,6 +156,8 @@ p {
 	margin: 10px;
 	flex-grow: 1;
 	position: relative;
+	background-color: #B6C6C2;
+	align-items: center;
 }
 
 .LocButton.selected, .GraphButton.selected, .TableButton.selected {
